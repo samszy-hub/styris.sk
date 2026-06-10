@@ -1,0 +1,1 @@
+# styris.sk
