@@ -227,16 +227,36 @@ const TALLY_FORM_ID = "2EopPD";
 function Kontakt() {
   React.useEffect(() => {
     const run = () => window.Tally && window.Tally.loadEmbeds();
-    if (window.Tally) {run();return;}
-    let s = document.querySelector('script[src="https://tally.so/widgets/embed.js"]');
-    if (!s) {
-      s = document.createElement('script');
-      s.src = "https://tally.so/widgets/embed.js";
-      s.onload = run;
-      document.body.appendChild(s);
-    } else {
-      s.addEventListener('load', run);
+    if (window.Tally) {run();} else {
+      let s = document.querySelector('script[src="https://tally.so/widgets/embed.js"]');
+      if (!s) {
+        s = document.createElement('script');
+        s.src = "https://tally.so/widgets/embed.js";
+        s.onload = run;
+        document.body.appendChild(s);
+      } else {
+        s.addEventListener('load', run);
+      }
     }
+
+    // Sledovanie odoslania formulára → Meta Pixel konverzia "Lead"
+    const onMessage = (e) => {
+      if (typeof e.data !== 'string' && (!e.data || typeof e.data.type === 'undefined')) return;
+      let payload = e.data;
+      if (typeof payload === 'string') {
+        try { payload = JSON.parse(payload); } catch (_) { return; }
+      }
+      const isSubmit = payload && (
+        payload.event === 'Tally.FormSubmitted' ||
+        payload.type === 'Tally.FormSubmitted' ||
+        payload.includesType === 'Tally.FormSubmitted'
+      );
+      if (isSubmit && typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead', { content_name: 'Dopytový formulár STYRIS' });
+      }
+    };
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
   }, []);
 
   return (
