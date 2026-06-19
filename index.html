@@ -9,22 +9,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="styris.css"/>
 
-<!-- Meta Pixel Code -->
+<!-- Meta Pixel Code (spúšťa sa až po súhlase s cookies) -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1109649517577215');
-fbq('track', 'PageView');
+(function(){
+  function loadMetaPixel(){
+    if(window.fbq && window.fbq.loaded) return;
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1109649517577215');
+    fbq('track', 'PageView');
+  }
+  window.__loadMetaPixel = loadMetaPixel;
+  try {
+    if(localStorage.getItem('styris_cookie_consent') === 'granted') loadMetaPixel();
+  } catch(e) {}
+})();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1109649517577215&ev=PageView&noscript=1"
-/></noscript>
 <!-- End Meta Pixel Code -->
 </head>
 <body>
@@ -38,5 +44,54 @@ src="https://www.facebook.com/tr?id=1109649517577215&ev=PageView&noscript=1"
 <script type="text/babel" src="components.jsx"></script>
 <script type="text/babel" src="sections.jsx"></script>
 <script type="text/babel" src="app.jsx"></script>
+
+<!-- Cookie consent -->
+<style>
+  #cookiebar{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;justify-content:center;
+    padding:16px;pointer-events:none;font-family:'Montserrat',system-ui,sans-serif}
+  #cookiebar[hidden]{display:none}
+  #cookiebar .cc-inner{pointer-events:auto;max-width:760px;width:100%;background:#1A1A1A;color:#fff;
+    border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35);padding:22px 24px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;
+    transform:translateY(8px);opacity:0;animation:ccUp .4s ease forwards}
+  @keyframes ccUp{to{transform:translateY(0);opacity:1}}
+  #cookiebar .cc-text{flex:1 1 320px;font-size:.9rem;line-height:1.55;color:rgba(255,255,255,.82)}
+  #cookiebar .cc-text strong{color:#fff;font-weight:700;display:block;margin-bottom:4px;font-size:.98rem}
+  #cookiebar .cc-text a{color:#F4C20D;text-decoration:underline}
+  #cookiebar .cc-btns{display:flex;gap:10px;flex:0 0 auto}
+  #cookiebar button{font-family:inherit;font-weight:600;font-size:.88rem;cursor:pointer;
+    border-radius:10px;padding:11px 20px;border:1px solid transparent;transition:all .18s ease;white-space:nowrap}
+  #cookiebar .cc-no{background:transparent;color:rgba(255,255,255,.78);border-color:rgba(255,255,255,.28)}
+  #cookiebar .cc-no:hover{color:#fff;border-color:rgba(255,255,255,.55)}
+  #cookiebar .cc-yes{background:#F4C20D;color:#1A1A1A}
+  #cookiebar .cc-yes:hover{background:#ffd028}
+  @media(max-width:560px){#cookiebar .cc-btns{flex:1 1 100%}#cookiebar button{flex:1}}
+</style>
+<div id="cookiebar" hidden>
+  <div class="cc-inner">
+    <div class="cc-text">
+      <strong>Súbory cookies</strong>
+      Na meranie návštevnosti a účinnosti reklamy používame Meta Pixel, ktorý ukladá cookies. Spustíme ho len s vaším súhlasom. Viac v dokumente <a href="GDPR.html">Ochrana osobných údajov</a>.
+    </div>
+    <div class="cc-btns">
+      <button class="cc-no" type="button" onclick="window.__cookieChoice(false)">Odmietnuť</button>
+      <button class="cc-yes" type="button" onclick="window.__cookieChoice(true)">Súhlasím</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY = 'styris_cookie_consent';
+  var bar = document.getElementById('cookiebar');
+  var saved;
+  try { saved = localStorage.getItem(KEY); } catch(e) {}
+  if(!saved) bar.hidden = false;
+  window.__cookieChoice = function(granted){
+    try { localStorage.setItem(KEY, granted ? 'granted' : 'denied'); } catch(e) {}
+    bar.hidden = true;
+    if(granted && typeof window.__loadMetaPixel === 'function') window.__loadMetaPixel();
+  };
+})();
+</script>
 </body>
 </html>
