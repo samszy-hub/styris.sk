@@ -185,7 +185,7 @@ function Galeria() {
   const items = [
   ["photos/schody-biele.jpg", "Samonosné schodisko"],
   ["photos/schody-cierne.jpg", "Oceľové schodisko"],
-  ["photos/schody-cierne-spine.jpg", "Schodisko na centrálnom nosníku"],
+  ["photos/schody-cierne-spine.jpg", "Schodisko točité s podestou"],
   ["photos/zabradlie-1.jpg", "Zábradlie"],
   ["photos/zabradlie-biele-galeria.jpg", "Drôtené zábradlie galérie"],
   ["photos/schody-exterier.jpg", "Vonkajšie oceľové schody"],
