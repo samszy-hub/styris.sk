@@ -323,6 +323,8 @@ form.kform{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.
 }
 @media (max-width:560px){
   .wrap{padding:0 20px}
+  .hero-split .hcol-media{display:none}
+  .hero-split .wrap{gap:0}
   .hero-stats{gap:26px;flex-wrap:wrap}
   .proces-grid{grid-template-columns:1fr}
   .galeria-grid{grid-template-columns:repeat(2,1fr)}
