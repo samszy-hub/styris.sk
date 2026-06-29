@@ -190,7 +190,8 @@ function Galeria() {
   ["photos/zabradlie-biele-galeria.jpg", "Drôtené zábradlie galérie"],
   ["photos/schody-exterier.jpg", "Vonkajšie oceľové schody"],
   ["photos/panel-police.jpg", "Dierovaný panel s policami"],
-  ["photos/brana-1.jpg", "Posuvná brána"]];
+  ["photos/brana-1.jpg", "Posuvná brána"],
+  [["photos/plot-drevodekor-1.jpg", "photos/plot-drevodekor-2.jpg"], "Plot a brána s drevodekorom"]];
 
   const VISIBLE = 4;
   const [all, setAll] = React.useState(false);
@@ -205,8 +206,12 @@ function Galeria() {
         </div>
         <div className="galeria-grid reveal">
           {shown.map(([src, cap]) =>
-          <figure className="gal-item" key={src}>
-              <img src={src} alt={cap} loading="lazy" />
+          <figure className="gal-item" key={Array.isArray(src) ? src[0] : src}>
+              {Array.isArray(src) ?
+            <div className="gal-duo">
+                  {src.map((s) => <img key={s} src={s} alt={cap} loading="lazy" />)}
+                </div> :
+            <img src={src} alt={cap} loading="lazy" />}
               <figcaption className="gcap">{cap}</figcaption>
             </figure>
           )}
