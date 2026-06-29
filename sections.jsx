@@ -185,10 +185,14 @@ function Galeria() {
   const items = [
   ["photos/schody-biele.jpg", "Samonosné schodisko"],
   ["photos/schody-cierne.jpg", "Oceľové schodisko"],
+  ["photos/schody-cierne-spine.jpg", "Schodisko na centrálnom nosníku"],
   ["photos/zabradlie-1.jpg", "Zábradlie"],
+  ["photos/zabradlie-biele-galeria.jpg", "Drôtené zábradlie galérie"],
+  ["photos/schody-exterier.jpg", "Vonkajšie oceľové schody"],
+  ["photos/panel-police.jpg", "Dierovaný panel s policami"],
   ["photos/brana-1.jpg", "Posuvná brána"]];
 
-  const VISIBLE = 8;
+  const VISIBLE = 4;
   const [all, setAll] = React.useState(false);
   const shown = all ? items : items.slice(0, VISIBLE);
   return (
